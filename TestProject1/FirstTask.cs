@@ -44,13 +44,13 @@ namespace AuthorizationTask
             PasswordPage passwordPage = new PasswordPage(driver);
             passwordPage.Password(password);
             
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(20));
             //WebElement name = (WebElement)wait.Until(ExpectedConditions.ElementIsVisible(By.XPath("//span[text()='kristkalight@mail.ru']")));
             var element = wait.Until(condition =>
             {
                 try
                 {
-                    var elementToBeDispalyed = driver.FindElement(By.XPath("//span[text()='kristkalight@mail.ru']"));
+                    var elementToBeDispalyed = driver.FindElement(By.XPath("//div[@class='ph-project ph-project__account svelte-1hiqrvn ph-project-any']"));
                     return elementToBeDispalyed.Displayed;
                 }
                 catch (ResultStateException)
@@ -65,7 +65,10 @@ namespace AuthorizationTask
             );
             
             Thread.Sleep(1000); //Sleep() method does not release the lock on object during Synchronization.
-            NUnit.Framework.Assert.IsTrue(driver.FindElement(By.XPath("//span[text()='kristkalight@mail.ru']")).Displayed);
+            NUnit.Framework.Assert.IsTrue(driver.FindElement(By.XPath("//div[@class='ph-project ph-project__account svelte-1hiqrvn ph-project-any']")).Displayed);
+
+            Logout logout = new Logout(driver);
+            logout.LogOut();
 
             driver.Close();
 
